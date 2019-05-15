@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using System.Threading.Tasks;
 using FistApi.Database.Migrations;
 using FistApi.Models;
@@ -14,16 +15,18 @@ namespace FistApi.Controllers
     {
         // GET api/values
         [HttpGet]
-        public async Task<string> Get()
+        public async Task<ActionResult> Get()
         {
             var response = await new MainContext()
                 .Authors
                 .Include(e => e.Books)
+                /*.Take(100)
+                .Skip(0)*/
                 .ToListAsync();
 
-            var json =  JsonConvert.SerializeObject(response);
+            var json = JsonConvert.SerializeObject(response, new JsonSerializerSettings(){ ReferenceLoopHandling = ReferenceLoopHandling.Ignore});
 
-            return json;
+            return new ObjectResult(json);
         }
 
         // GET api/values/5
