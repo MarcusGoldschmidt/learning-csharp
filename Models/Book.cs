@@ -1,5 +1,8 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+
 namespace FistApi.Models
 {
     public class Book
@@ -33,7 +36,7 @@ namespace FistApi.Models
         [Required]
         public int AuthorId { get; set; }
         
-        [Required]
+        [ForeignKey("AuthorId")]
         public Author Author { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using FistApi.Database.Migrations;
 using FistApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace FistApi.Controllers
 {
@@ -13,9 +14,16 @@ namespace FistApi.Controllers
     {
         // GET api/values
         [HttpGet]
-        public async Task<IList> Get()
+        public async Task<string> Get()
         {
-            return await new MainContext().Authors.ToListAsync();
+            var response = await new MainContext()
+                .Authors
+                .Include(e => e.Books)
+                .ToListAsync();
+
+            var json =  JsonConvert.SerializeObject(response);
+
+            return json;
         }
 
         // GET api/values/5
@@ -23,7 +31,9 @@ namespace FistApi.Controllers
         public async Task<Author> Get(int id)
         {
             MainContext db = new MainContext();
-            return await db.Authors.FindAsync(id);
+            var response = await db.Authors
+                .FindAsync(id);
+            return response;
         }
 
         // POST api/values

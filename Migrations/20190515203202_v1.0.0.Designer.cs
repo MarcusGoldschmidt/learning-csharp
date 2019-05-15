@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FistApi.Migrations
 {
     [DbContext(typeof(MainContext))]
-    [Migration("20190515194529_v1.0.0")]
+    [Migration("20190515203202_v1.0.0")]
     partial class v100
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -63,7 +63,7 @@ namespace FistApi.Migrations
             modelBuilder.Entity("FistApi.Models.Book", b =>
                 {
                     b.HasOne("FistApi.Models.Author", "Author")
-                        .WithMany()
+                        .WithMany("Books")
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

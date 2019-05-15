@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace FistApi.Models
@@ -11,5 +12,7 @@ namespace FistApi.Models
         
         [Required]
         public int age { get; set; }
+        
+        public IList<Book> Books { get; set; }
     }
 }

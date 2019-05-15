@@ -15,9 +15,14 @@ namespace FistApi.Controllers
     {
         // GET api/values
         [HttpGet]
-        public async Task<IList> Get()
+        public ActionResult<IEnumerable> Get()
         {
-            return await new MainContext().Books.ToListAsync();
+            var teste = new MainContext()
+                .Books
+                .Include(book => book.Author)
+                .ToList();
+
+            return teste;
         }
 
         // GET api/values/5

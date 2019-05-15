@@ -11,8 +11,10 @@ namespace FistApi.Database.Migrations
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Author>();
-            modelBuilder.Entity<Book>();
+            modelBuilder.Entity<Author>()
+                .HasMany(e => e.Books);
+            modelBuilder.Entity<Book>()
+                .HasOne(e => e.Author);
         }
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

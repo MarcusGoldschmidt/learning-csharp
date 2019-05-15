@@ -61,7 +61,7 @@ namespace FistApi.Migrations
             modelBuilder.Entity("FistApi.Models.Book", b =>
                 {
                     b.HasOne("FistApi.Models.Author", "Author")
-                        .WithMany()
+                        .WithMany("Books")
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
