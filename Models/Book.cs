@@ -10,7 +10,7 @@ namespace FistApi.Models
             Start_time = DateTime.Now;
         }
         
-        public int Id { get; set; }
+        public int BookId { get; set; }
         
         public Boolean Is_using { get; set; }
         
@@ -31,8 +31,9 @@ namespace FistApi.Models
         
         // Chave
         [Required]
-        public int Author_id { get; set; }
+        public int AuthorId { get; set; }
         
+        [Required]
         public Author Author { get; set; }
     }
 }

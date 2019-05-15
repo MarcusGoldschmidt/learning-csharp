@@ -1,4 +1,3 @@
-using System.Configuration;
 using FistApi.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,9 +17,11 @@ namespace FistApi.Database.Migrations
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            // SQL LITE
+            // .UseSqlite("Data Source=db_livraria.db");
+
             optionsBuilder
-                .UseSqlite("Data Source=db_livraria.db");
-            // .UseMySQL(ConfigurationManager.ConnectionStrings["LivrariaDatabase"].ConnectionString)
+                .UseMySql("Server=localhost;Database=db_livraria;Uid=root;Pwd=55");
         }
     }
 }
