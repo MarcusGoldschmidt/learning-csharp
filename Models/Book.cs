@@ -18,8 +18,10 @@ namespace FistApi.Models
         [Required]
         [MinLength(5)]
         public string name { get; set; }
+        
         [Required]
         public string author { get; set; }
+        
         [Required]
         public string publishing { get; set; }
         

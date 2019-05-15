@@ -1,4 +1,4 @@
-using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using FistApi.Models;
@@ -14,18 +14,9 @@ namespace FistApi.Controllers
 
         // GET api/values
         [HttpGet]
-        public ActionResult<IList<Book>> Get()
+        public ActionResult<IList> Get()
         {
-            Book book = new Book();
-            book.name = "Marcus";
-            book.author = "João";
-            book.publishing = "Autora";
-
-            books.Add(book);
-            
-            Console.WriteLine("\n" + books + "\n");
-            
-            return new ObjectResult(books);
+            return books;
         }
 
         // GET api/values/5
@@ -40,16 +31,16 @@ namespace FistApi.Controllers
 
         // POST api/values
         [HttpPost]
-        public ActionResult Post([FromBody]Book value)
+        public ActionResult<Book> Post([FromForm]Book value)
         {
             value.id = books.Count + 1;
             books.Add(value);
-            return new ObjectResult(value);
+            return new ObjectResult(books);
         }
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public void Put(int id, [FromForm] string value)
         {
             
         }
