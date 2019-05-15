@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using FistApi.Database.Migrations;
 using FistApi.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace FistApi.Controllers
 {
@@ -12,22 +13,19 @@ namespace FistApi.Controllers
     [ApiController]
     public class BookController : ControllerBase
     {
-        private List<Book> books = new List<Book>();
         // GET api/values
         [HttpGet]
-        public ActionResult<IList> Get()
+        public async Task<IList> Get()
         {
-            return new MainContext().Books.ToList();
+            return await new MainContext().Books.ToListAsync();
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public IEnumerable<Book> Get(int id)
+        public async Task<Book> Get(int id)
         {
-            // Define the query expression.
-            IEnumerable<Book> query = from book in books where book.id == id select book;
-            
-            return query;
+            MainContext db = new MainContext();
+            return await db.Books.FindAsync(id);
         }
 
         // POST api/values
@@ -42,15 +40,21 @@ namespace FistApi.Controllers
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public void Put(int id, [FromForm] string value)
         {
             
         }
 
         // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete]
+        public async Task<Book> Delete([FromForm] int id)
         {
+            MainContext db = new MainContext();
+            var respose = await db.Books.FindAsync(id);
+            db.Books.Remove(respose);
+            await db.SaveChangesAsync();
+            
+            return respose; 
         }
     }
 }
