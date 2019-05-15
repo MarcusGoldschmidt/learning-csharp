@@ -7,26 +7,33 @@ namespace FistApi.Models
     {
         public Book()
         {
-            is_using = false;
-            start_time = DateTime.Now;
+            Is_using = false;
+            Start_time = DateTime.Now;
         }
         
         public int id { get; set; }
         
-        public Boolean is_using { get; set; }
+        public Boolean Is_using { get; set; }
         
         [Required]
         [MinLength(5)]
-        public string name { get; set; }
+        public string Title { get; set; }
         
         [Required]
-        public string author { get; set; }
+        public string Publishing { get; set; }
         
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:d}")]
+        public DateTime Start_time { get; set; }
+        
+        [DataType(DataType.Currency)]
+        [DisplayFormat(DataFormatString = "{0:d}")]
+        public DateTime Finish_time { get; set; }
+        
+        // Chave
         [Required]
-        public string publishing { get; set; }
+        public int Author_id { get; set; }
         
-        public DateTime start_time { get; set; }
-        
-        public DateTime finish_time { get; set; }
+        public Author Author { get; set; }
     }
 }
