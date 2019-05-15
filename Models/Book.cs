@@ -1,6 +1,5 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-
 namespace FistApi.Models
 {
     public class Book
@@ -11,7 +10,7 @@ namespace FistApi.Models
             Start_time = DateTime.Now;
         }
         
-        public int id { get; set; }
+        public int Id { get; set; }
         
         public Boolean Is_using { get; set; }
         
