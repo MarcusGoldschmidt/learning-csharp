@@ -39,10 +39,13 @@ namespace FistApi.Controllers
         }
 
         // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromForm] string value)
+        [HttpPut]
+        public async Task<Book> Put([FromForm] Book value)
         {
-            
+            MainContext db = new MainContext();
+            db.Books.Update(value);
+            await db.SaveChangesAsync();
+            return value;
         }
 
         // DELETE api/values/5
