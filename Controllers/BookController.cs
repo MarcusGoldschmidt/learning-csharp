@@ -6,6 +6,7 @@ using FistApi.Database.Migrations;
 using FistApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace FistApi.Controllers
 {
@@ -13,24 +14,34 @@ namespace FistApi.Controllers
     [ApiController]
     public class BookController : ControllerBase
     {
+        // Opção para não ocorer referencia circular
+        private JsonSerializerSettings JsonSettings = new JsonSerializerSettings()
+        {
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+        };
+        
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable> Get()
+        public async Task<string> Get()
         {
-            var teste = new MainContext()
+            var response = await new MainContext()
                 .Books
-                .Include(book => book.Author)
-                .ToList();
+                .Include(e => e.Author)
+                .ToListAsync();
 
-            return teste;
+            return JsonConvert.SerializeObject(response, JsonSettings);
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public async Task<Book> Get(int id)
+        public async Task<string> Get(int id)
         {
             MainContext db = new MainContext();
-            return await db.Books.FindAsync(id);
+            var response = await db.Books
+                .Include(e => e.Author)
+                .SingleOrDefaultAsync(e => e.BookId == id);
+            
+            return JsonConvert.SerializeObject(response, JsonSettings);
         }
 
         // POST api/values

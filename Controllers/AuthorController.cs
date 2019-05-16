@@ -13,6 +13,12 @@ namespace FistApi.Controllers
     [ApiController]
     public class AuthorController
     {
+        // Opção para não ocorer referencia circular
+        private JsonSerializerSettings JsonSettings = new JsonSerializerSettings()
+        {
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+        };
+        
         // GET api/values
         [HttpGet]
         public async Task<ActionResult> Get()
@@ -24,19 +30,22 @@ namespace FistApi.Controllers
                 .Skip(0)*/
                 .ToListAsync();
 
-            var json = JsonConvert.SerializeObject(response, new JsonSerializerSettings(){ ReferenceLoopHandling = ReferenceLoopHandling.Ignore});
+            var json = JsonConvert.SerializeObject(response, JsonSettings);
 
             return new ObjectResult(json);
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public async Task<Author> Get(int id)
+        public async Task<string> Get(int id)
         {
             MainContext db = new MainContext();
+
             var response = await db.Authors
-                .FindAsync(id);
-            return response;
+                .Include(e => e.Books)
+                .SingleOrDefaultAsync(x => x.AuthorId == id);
+            
+            return JsonConvert.SerializeObject(response, JsonSettings);
         }
 
         // POST api/values
