@@ -23,7 +23,8 @@ namespace FistApi.Database.Migrations
         {
             // SQL LITE
             // .UseSqlite("Data Source=db_livraria.db");
-
+            
+            // TODO: Configurar Banco
             optionsBuilder
                 .UseMySql("Server=localhost;Database=db_livraria;Uid=root;Pwd=55");
         }
